@@ -1,0 +1,22 @@
+# .github/workflows/ci.yml
+name: Terraform Security Checks
+
+on: [push]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./infrastructure
+
+      - name: Run Gitleaks
+        uses: zricethezav/gitleaks-action@v1.6.0
+
