@@ -12,11 +12,16 @@ phases:
       - terraform version
 
   pre_build:
-    commands:
-      - echo Entering infrastructure directory...
-      - cd infrastructure
-      - echo Initializing Terraform...
-      - terraform init -input=false
+  commands:
+    - echo Installing tfsec and checkov...
+    - curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+    - pip install checkov
+    - echo Running tfsec security scan...
+    - tfsec .
+    - echo Running checkov security scan...
+    - checkov -d .
+    - echo Initializing Terraform...
+    - terraform init -input=false
 
   build:
     commands:
