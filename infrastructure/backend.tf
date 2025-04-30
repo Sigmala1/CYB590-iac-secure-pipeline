@@ -1,9 +1,9 @@
-# backend.tf (optional if using remote state)
 terraform {
   backend "s3" {
-    bucket = "my-tf-state-bucket"
-    key    = "terraform.tfstate"
-    region = "us-west-1"
+    bucket         = "cyb590-tfstate-bucket"
+    key            = "state/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "cyb590-tfstate-locks"
   }
 }
-
