@@ -16,19 +16,17 @@ phases:
 
   pre_build:
     commands:
-      - echo Checking Terraform formatting...
-      - terraform fmt -check -recursive || echo "Format check warnings"
-      - echo Validating Terraform configuration...
-      - terraform validate || echo "Validation warnings (non-blocking)"
-      - echo Running tfsec security scan (non-blocking)...
-      - tfsec . --no-color || echo "tfsec completed with warnings"
-      - echo Running checkov security scan (non-blocking)...
-      - checkov -d . || echo "checkov completed with warnings"
+      - echo Running tfsec security scan...
+      - tfsec . || echo "⚠️ tfsec found issues but continuing..."
+      - echo Running checkov security scan...
+      - checkov -d . -o json > checkov-report.json || echo "⚠️ Checkov found issues but continuing..."
       - echo Initializing Terraform...
       - terraform init -input=false
 
   build:
     commands:
+      - echo Validating Terraform configuration...
+      - terraform validate
       - echo Planning Terraform changes...
       - terraform plan -out=tfplan
 
@@ -40,3 +38,4 @@ phases:
 artifacts:
   files:
     - '**/*'
+    - checkov-report.json
