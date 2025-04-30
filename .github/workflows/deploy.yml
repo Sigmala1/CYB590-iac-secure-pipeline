@@ -63,7 +63,7 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        run: terraform apply
+        run: terraform apply -auto-approve tfplan
 
   build-and-deploy:
     name: Build and Deploy
