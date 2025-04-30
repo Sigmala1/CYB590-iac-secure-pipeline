@@ -7,14 +7,17 @@ terraform {
       name = "PHP_IaC" 
     } 
   } 
+  required_providers {
+      aws = {
+        source  = "hashicorp/aws"
+        version = "~> 4.0"
+      }
+  }
 }
 provider "aws" {
   region = var.aws_region
   
-  assume_role_with_web_identity {
-    role_arn = "arn:aws:iam::814367145405:role/github-actions"
-    
-  }
+
 }
 
 # Data source for AWS account ID
