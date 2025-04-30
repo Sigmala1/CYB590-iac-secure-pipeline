@@ -18,10 +18,19 @@ phases:
     commands:
       - echo Running tfsec security scan...
       - tfsec . || echo "⚠️ tfsec found issues but continuing..."
+
       - echo Running checkov security scan...
-      - checkov -d . -o json > checkov-report.json || echo "⚠️ Checkov found issues but continuing..."
-      - echo "Forcing successful exit status to continue build regardless of checkov scan result"
-      - true
+      - |
+        (
+          set +e
+          checkov -d . -o json > checkov-report.json
+          STATUS=$?
+          if [ $STATUS -ne 0 ]; then
+            echo "⚠️ Checkov failed with exit code $STATUS, but continuing..."
+          fi
+          exit 0
+        )
+
       - echo Initializing Terraform...
       - terraform init -input=false
 
