@@ -13,7 +13,7 @@ variable "environment" {
 variable "project_name" {
   description = "The name of the project"
   type        = string
-  default     = "php-hello-world"
+  default     = "php-infrastructure-as-code"
 }
 
 variable "vpc_cidr" {
