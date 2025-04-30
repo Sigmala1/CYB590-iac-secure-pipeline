@@ -1,11 +1,11 @@
 <?php
-// Simple Hello World PHP application
+// Infrastructure as Code PHP application
 header('Content-Type: text/html');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello World PHP Application</title>
+    <title>Infrastructure as Code Application</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +30,7 @@ header('Content-Type: text/html');
 </head>
 <body>
     <div class="container">
-        <h1>Hello World!</h1>
+        <h1>Infrastructure as Code!</h1>
         <p>Successfully deployed PHP application with Terraform to ECS.</p>
         <p>Environment: Development</p>
         <p>Server Time: <?php echo date('Y-m-d H:i:s'); ?></p>
