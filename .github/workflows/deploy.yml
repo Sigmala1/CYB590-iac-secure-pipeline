@@ -6,9 +6,9 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: php-infrastructure-as-code-development
-  ECS_CLUSTER: php-infrastructure-as-code-development-cluster
-  ECS_SERVICE: php-infrastructure-as-code-development-service
+  ECR_REPOSITORY: php-iac-development
+  ECS_CLUSTER: php-iac-development-cluster
+  ECS_SERVICE: php-iac-development-service
 
 permissions:
   contents: read
