@@ -59,11 +59,8 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+      - name: Terraform Destroy
+	run: terraform destroy
 
   build-and-deploy:
     name: Build and Deploy
