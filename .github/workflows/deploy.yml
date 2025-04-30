@@ -6,9 +6,9 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: php-hello-world-development
-  ECS_CLUSTER: php-hello-world-development-cluster
-  ECS_SERVICE: php-hello-world-development-service
+  ECR_REPOSITORY: php-infrastructure-as-code-development
+  ECS_CLUSTER: php-infrastructure-as-code-development-cluster
+  ECS_SERVICE: php-infrastructure-as-code-development-service
 
 permissions:
   contents: read
@@ -46,7 +46,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Setup Terraform
