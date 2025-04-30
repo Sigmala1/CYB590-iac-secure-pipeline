@@ -1,3 +1,13 @@
+terraform { 
+  cloud { 
+    
+    organization = "AaronSiegman" 
+
+    workspaces { 
+      name = "PHP_IaC" 
+    } 
+  } 
+}
 # AWS Provider
 provider "aws" {
   region = var.aws_region
