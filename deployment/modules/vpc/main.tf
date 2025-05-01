@@ -60,7 +60,7 @@ resource "aws_iam_role_policy" "flowlogs_policy" {
           "logs:DescribeLogStreams"
         ]
         Effect   = "Allow"
-        Resource = "${aws_cloudwatch_log_group.flow_log.arn}:*"
+        Resource = "${aws_cloudwatch_log_group.flow_log_group.arn}:*"
       },
     ]
   })
