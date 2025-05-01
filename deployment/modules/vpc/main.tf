@@ -20,6 +20,7 @@ resource "aws_flow_log" "flow_log" {
   log_destination_type = "cloud-watch-logs"
   traffic_type         = "ALL"
   vpc_id               = aws_vpc.main.id
+  iam_role_arn         = aws_iam_role.flowlogs_role.arn
   
   tags = {
     Name = "vpc-flow-logs"
@@ -60,7 +61,7 @@ resource "aws_iam_role_policy" "flowlogs_policy" {
           "logs:DescribeLogStreams"
         ]
         Effect   = "Allow"
-        Resource = "${aws_cloudwatch_log_group.flow_log_group.arn}:*"
+        Resource = ["${aws_cloudwatch_log_group.flow_log_group.arn}:*", aws_cloudwatch_log_group.flow_log_group.arn]
       },
     ]
   })
