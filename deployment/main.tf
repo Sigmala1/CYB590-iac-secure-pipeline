@@ -36,7 +36,7 @@ module "vpc" {
 # Set up ECR repository
 resource "aws_ecr_repository" "app" {
   name                 = "${var.project_name}-${var.environment}"
-  image_tag_mutability = "MUTABLE"
+  image_tag_mutability = "IMMUTABLE"
   
   image_scanning_configuration {
     scan_on_push = true
@@ -178,7 +178,8 @@ resource "aws_lb" "app" {
   security_groups    = [aws_security_group.ecs_service.id]
   subnets            = module.vpc.public_subnet_ids
   
-  enable_deletion_protection = false
+  enable_deletion_protection = true
+  drop_invalid_header_fields = true
   
   tags = {
     Name        = "${var.project_name}-${var.environment}-alb"

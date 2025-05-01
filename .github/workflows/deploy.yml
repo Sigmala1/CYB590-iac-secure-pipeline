@@ -15,8 +15,8 @@ permissions:
   id-token: write
 
 jobs:
-  tfsec:
-    name: Run tfsec scan
+  security:
+    name: Run security scans
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

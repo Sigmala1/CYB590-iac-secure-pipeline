@@ -10,6 +10,62 @@ resource "aws_vpc" "main" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "flow_log_group" {
+  name = "/aws/vpc/flowlogs"
+  retention_in_days = 30
+}
+
+resource "aws_flow_log" "flow_log" {
+  log_destination      = aws_cloudwatch_log_group.flow_log.arn
+  log_destination_type = "cloud-watch-logs"
+  traffic_type         = "ALL"
+  vpc_id               = aws_vpc.main.id
+  
+  tags = {
+    Name = "vpc-flow-logs"
+    Environment = var.environment
+  }
+}
+
+resource "aws_iam_role" "flowlogs_role" {
+  name = "vpc-flowlogs-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "vpc-flow-logs.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "flowlogs_policy" {
+  name = "vpc-flowlogs-policy"
+  role = aws_iam_role.flowlogs_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams"
+        ]
+        Effect   = "Allow"
+        Resource = "${aws_cloudwatch_log_group.flow_log.arn}:*"
+      },
+    ]
+  })
+} 
+
 # Internet Gateway
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
